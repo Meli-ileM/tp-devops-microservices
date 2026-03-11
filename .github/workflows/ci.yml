@@ -22,32 +22,34 @@ jobs:
         java-version: '21'
 
     # Build de chaque microservice
-    - name: Build Product Service
+
+    - name: Build Catalogue Service
       run: |
-        cd product-service
+        cd catalogue-service
         mvn clean install
 
-    - name: Build Order Service
+    - name: Build Commande Service
       run: |
-        cd order-service
+        cd commande-service
         mvn clean install
 
-    - name: Build User Service
+    - name: Build Paiement Service
       run: |
-        cd user-service
-        mvn clean install
-
-    - name: Build Inventory Service
-      run: |
-        cd inventory-service
-        mvn clean install
-
-    - name: Build Payment Service
-      run: |
-        cd payment-service
+        cd paiement-service
         mvn clean install
 
     - name: Build Gateway Service
       run: |
         cd gateway-service
+        mvn clean install
+
+    # (optionnel) si tu veux builder aussi config et discovery :
+    - name: Build Config Service
+      run: |
+        cd config-service
+        mvn clean install
+    
+    - name: Build Discovery Service
+      run: |
+        cd discovery-service
         mvn clean install
