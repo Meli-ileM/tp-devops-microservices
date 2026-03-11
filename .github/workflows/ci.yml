@@ -68,3 +68,7 @@ jobs:
       run: |
         cd catalogue-service
         docker build -t catalogue-service:ci .
+    - name: Run tests in Docker (catalogue-service)
+      run: |
+        cd catalogue-service
+        docker build -f Dockerfile.test -t catalogue-service-tests .
