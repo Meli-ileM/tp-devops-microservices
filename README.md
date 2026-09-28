@@ -1,175 +1,88 @@
-# Rapport de TP : DevOps Microservices
+<div align="center">
 
-## Présentation
+# 🛒 DevOps Microservices
 
-Ce projet est une application e-commerce basée sur une architecture micro-services, réalisée dans le cadre du TP "Techniques de conteneurisation et micro-services". L’objectif est de concevoir, développer et déployer plusieurs micro-services Spring Boot, conteneurisés avec Docker et orchestrés avec Docker Compose.
+**E-commerce app built with Spring Boot microservices, Docker & CI/CD**
+*Application e-commerce en micro-services Spring Boot, conteneurisée avec Docker, avec CI/CD*
 
-## Micro-services inclus
+![Java](https://img.shields.io/badge/Java_17-ED8B00?style=flat&logo=openjdk&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-6DB33F?style=flat&logo=springboot&logoColor=white)
+![Maven](https://img.shields.io/badge/Maven-C71A36?style=flat&logo=apachemaven&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white)
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=flat&logo=githubactions&logoColor=white)
 
-- **catalogue-service** : Gestion des produits
-- **commande-service** : Gestion des commandes
-- **paiement-service** : Gestion des paiements
-- **gateway-service** : API Gateway pour centraliser les accès
-- **discovery-service** : Service de découverte Eureka
-- **config-service** : Service de configuration centralisée
+🇬🇧 [English](#-english) · 🇫🇷 [Français](#-français)
 
-## Étapes réalisées
+</div>
 
-1. **Préparation de l’environnement**
-	- Installation des outils (IDE, JDK, Maven, Docker)
-	- Configuration des variables d’environnement
+---
 
-2. **Génération des projets**
-	- Création des micro-services via Spring Initializr avec les dépendances nécessaires
+## 🇬🇧 English
 
-3. **Développement**
-	- Implémentation des REST APIs, gestion des erreurs, logging, validation, mapping DTO, tests unitaires
-	- Communication inter-services via OpenFeign
+### 💡 About
+An e-commerce application split into Spring Boot microservices, containerized with Docker and orchestrated with Docker Compose.
+🎓 Lab project, "Containerization techniques and microservices" course (2026). Kubernetes follow-up: [minikube-lab](https://github.com/Meli-ileM/minikube-lab).
 
-4. **Conteneurisation**
-	- Création d’un Dockerfile pour chaque micro-service
-	- Compilation et création des images Docker
+### 🧩 Microservices
+| Service | Role |
+|---|---|
+| 📦 `catalogue-service` | Product management |
+| 🧾 `commande-service` | Order management |
+| 💳 `paiement-service` | Payment management |
+| 🚪 `gateway-service` | API Gateway, single entry point |
+| 🧭 `discovery-service` | Service discovery (Eureka) |
+| ⚙️ `config-service` | Centralized configuration |
 
-5. **Déploiement local**
-	- Lancement des conteneurs individuellement avec Docker
-	- Orchestration complète avec Docker Compose (`docker-compose.yml`)
-	- Configuration des ports, variables d’environnement, dépendances, réseau interne
+Each service follows a layered architecture: `controller`, `service`, `domain`, `repository`, `dto`.
 
-6. **Tests et validation**
-	- Vérification de l’enregistrement des micro-services dans Eureka
-	- Tests des appels via la Gateway
-	- Consultation des logs
-	- Ajout de bases de données et healthchecks
+### ✨ What I did
+- 🛠️ REST APIs with error handling, logging, validation, DTO mapping and unit tests
+- 🔗 Inter-service communication with OpenFeign
+- 🐳 One Dockerfile per service + full orchestration with Docker Compose (ports, env variables, internal network, databases, healthchecks)
+- ✅ CI pipeline with GitHub Actions (build, tests and code quality on every push)
+- 🧪 `Dockerfile.test` to test `catalogue-service` in a dedicated container
 
-## CI/CD avec GitHub Actions
+![GitHub Actions success](images/github-action-success.png)
 
-Nous avons mis en place une action GitHub pour automatiser l’intégration continue (CI) du projet. Cette action vérifie la compilation, les tests et la qualité du code à chaque push.
-
-**Résultat :** L’action GitHub s’est exécutée avec succès, validant l’ensemble du pipeline CI.
-
-### Capture d’écran de la réussite
-
-![Succès GitHub Action](images/github-action-success.png)
-
-*(La capture d’écran est disponible dans le dossier `images/` sous le nom `github-action-success.png`)*
-
-## Test du Dockerfile.test
-
-Un fichier `Dockerfile.test` a été créé pour tester le micro-service `catalogue-service` dans un environnement conteneurisé. Ce test permet de valider le fonctionnement du service dans un conteneur Docker dédié aux tests.
-
-**Exemple de commande pour lancer le test :**
-
+### 🚀 Getting started
+```bash
+mvn clean package                  # build
+docker compose up                  # run everything
+docker compose down                # stop
 ```
+| Service | URL |
+|---|---|
+| Eureka | http://localhost:8761 |
+| Config Server | http://localhost:8888 |
+| Gateway | http://localhost:8084 |
+| Catalogue | http://localhost:8081 |
+
+---
+
+## 🇫🇷 Français
+
+### 💡 À propos
+Application e-commerce découpée en micro-services Spring Boot, conteneurisés avec Docker et orchestrés avec Docker Compose.
+🎓 TP du module « Techniques de conteneurisation et micro-services » (2026). Suite sur Kubernetes : [minikube-lab](https://github.com/Meli-ileM/minikube-lab).
+
+### ✨ Étapes réalisées
+1. 🧰 **Environnement** : IDE, JDK, Maven, Docker et variables d'environnement
+2. 🌱 **Génération** des micro-services avec Spring Initializr
+3. 🛠️ **Développement** : API REST, gestion des erreurs, logging, validation, DTO, tests unitaires, communication via OpenFeign
+4. 🐳 **Conteneurisation** : un Dockerfile par micro-service et création des images
+5. 🚢 **Déploiement local** avec Docker puis Docker Compose (ports, variables, dépendances, réseau interne)
+6. ✅ **Tests et validation** : enregistrement dans Eureka, appels via la Gateway, logs, bases de données et healthchecks
+7. 🔁 **CI/CD** avec GitHub Actions et test du service catalogue avec `Dockerfile.test`
+
+```bash
 docker build -f Dockerfile.test -t catalogue-service-test .
 docker run catalogue-service-test
 ```
 
-## Commandes utiles
+---
 
-- Compilation Maven :
-  ```
-  mvn clean package
-  ```
-- Construction des images Docker :
-  ```
-  docker build -t <service>:1.0 .
-  ```
-- Lancement des conteneurs :
-  ```
-  docker run -p <port>:8080 <service>:1.0
-  ```
-- Orchestration avec Docker Compose :
-  ```
-  docker compose up
-  docker compose down
-  ```
+<div align="center">
 
-## Accès aux services
+Made with 💜 by **Meli**
 
-- Eureka : [http://localhost:8761](http://localhost:8761)
-- Config Server : [http://localhost:8888](http://localhost:8888)
-- Gateway : [http://localhost:8084](http://localhost:8084)
-- Catalogue : [http://localhost:8081](http://localhost:8081)
-
-## Présentation
-
-Ce projet est une application e-commerce basée sur une architecture micro-services, réalisée dans le cadre du TP "Techniques de conteneurisation et micro-services". L’objectif est de concevoir, développer et déployer plusieurs micro-services Spring Boot, conteneurisés avec Docker et orchestrés avec Docker Compose.
-
-## Micro-services inclus
-
-- **catalogue-service** : Gestion des produits
-- **commande-service** : Gestion des commandes
-- **paiement-service** : Gestion des paiements
-- **gateway-service** : API Gateway pour centraliser les accès
-- **discovery-service** : Service de découverte Eureka
-- **config-service** : Service de configuration centralisée
-
-## Architecture et technologies
-
-- **Spring Boot** pour chaque micro-service
-- **Docker** pour la conteneurisation
-- **Docker Compose** pour l’orchestration locale
-- **Maven** pour la gestion des dépendances et la compilation
-- **JDK 17+** requis
-
-Chaque micro-service respecte l’architecture hexagonale :
-- controller
-- service
-- domain
-- repository
-- dto
-
-## Étapes réalisées
-
-1. **Préparation de l’environnement**
-	- Installation des outils (IDE, JDK, Maven, Docker)
-	- Configuration des variables d’environnement
-
-2. **Génération des projets**
-	- Création des micro-services via Spring Initializr avec les dépendances nécessaires
-
-3. **Développement**
-	- Implémentation des REST APIs, gestion des erreurs, logging, validation, mapping DTO, tests unitaires
-	- Communication inter-services via OpenFeign
-
-4. **Conteneurisation**
-	- Création d’un Dockerfile pour chaque micro-service
-	- Compilation et création des images Docker
-
-5. **Déploiement local**
-	- Lancement des conteneurs individuellement avec Docker
-	- Orchestration complète avec Docker Compose (`docker-compose.yml`)
-	- Configuration des ports, variables d’environnement, dépendances, réseau interne
-
-6. **Tests et validation**
-	- Vérification de l’enregistrement des micro-services dans Eureka
-	- Tests des appels via la Gateway
-	- Consultation des logs
-	- Ajout de bases de données et healthchecks
-
-## Commandes utiles
-
-- Compilation Maven :
-  ```
-  mvn clean package
-  ```
-- Construction des images Docker :
-  ```
-  docker build -t <service>:1.0 .
-  ```
-- Lancement des conteneurs :
-  ```
-  docker run -p <port>:8080 <service>:1.0
-  ```
-- Orchestration avec Docker Compose :
-  ```
-  docker compose up
-  docker compose down
-  ```
-
-## Accès aux services
-
-- Eureka : [http://localhost:8761](http://localhost:8761)
-- Config Server : [http://localhost:8888](http://localhost:8888)
-- Gateway : [http://localhost:8084](http://localhost:8084)
-- Catalogue : [http://localhost:8081](http://localhost:8081)
+</div>
